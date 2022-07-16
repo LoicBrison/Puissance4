@@ -1,4 +1,4 @@
-import { currentPlayer, freePositionY, winingPositions } from "../func/game";
+import { countEmptyCells, currentPlayer, freePositionY, winingPositions } from "../func/game";
 import { GameContext, GameEvent, GameGuard, PlayerColor } from "../types";
 
 // retourne vrais si le nombre de joueur est inférieur à 2
@@ -36,4 +36,10 @@ export const isWiningMoveGuard: GameGuard<"dropToken"> = (context, event) => {
             event.x,
             context.rowLength
         ).length > 0
+}
+
+export const isDrawMoveGuard: GameGuard<"dropToken"> = (context, event) => {
+    return canDropGuard(context, event) && countEmptyCells(
+        context.grid
+    ) <= 1
 }

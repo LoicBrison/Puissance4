@@ -29,7 +29,7 @@ export function winingPositions(grid: GridState, color: PlayerColor, x: number, 
             for (let i = 1; i < size; i++){
                 const x = position.x + (i * direction[0] * forward)
                 const y = position.y + (i * direction[1] * forward)
-                if(grid[y][x] != color){
+                if(grid?.[y]?.[x] != color){
                     break;
                 }
                 items.push({x,y})
@@ -49,4 +49,16 @@ export function currentPlayer(context: GameContext): Player {
         throw new Error("Impossible de récupérer le joueur courant")
     }
     return player
+}
+
+export function countEmptyCells(grid: GridState): number {
+    let count = 0;
+    for(let row of grid){
+        for(let cell of row){
+            if( cell == 'E'){
+                count++
+            }
+        }
+    }
+    return count
 }

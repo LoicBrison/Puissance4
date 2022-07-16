@@ -1,8 +1,8 @@
 import { createMachine, interpret, InterpreterFrom } from "xstate"
 import { createModel } from "xstate/lib/model"
 import { GameContext, GameStates, GridState, Player, PlayerColor, Position } from "../types"
-import { dropTokenAction, joinGameAction, leaveGameAction, switchPlayerAction } from "./action"
-import { canDropGuard, canJoinGuard, canLeaveGuard, isWiningMoveGuard } from "./guards"
+import { chooseColorAction, dropTokenAction, joinGameAction, leaveGameAction, restartAction, saveWiningPositionsAction as saveWiningPositionsAction, setCurrentPLayerAction, switchPlayerAction } from "./action"
+import { canChooseColorGuard, canDropGuard, canJoinGuard, canLeaveGuard, canStartGameGuard, isDrawMoveGuard, isWiningMoveGuard } from "./guards"
 
 //Les cases du grid vides sont représenté par un E
 export const GameModel = createModel({
@@ -50,19 +50,34 @@ export const GameMachine = GameModel.createMachine({
                     target: GameStates.LOBBY
                 },
                 chooseColor: {
+                    cond: canChooseColorGuard,
+                    actions: [GameModel.assign(chooseColorAction)],
                     target: GameStates.LOBBY
                 },
                 start: {
+                    cond: canStartGameGuard,
+                    actions: [GameModel.assign(setCurrentPLayerAction)],
                     target: GameStates.PLAY
                 }
             }
         },
         [GameStates.PLAY]: {
+            // after: {
+            //     20000: {
+            //         target: GameStates.PLAY,
+            //         actions: [GameModel.assign(switchPlayerAction)]
+            //     }
+            // }
             on: {
                 dropToken: [
                     {
-                        cond: isWiningMoveGuard,
+                        cond: isDrawMoveGuard,
                         actions: [GameModel.assign(dropTokenAction)],
+                        target: GameStates.DRAW
+                    },
+                    {
+                        cond: isWiningMoveGuard,
+                        actions: [GameModel.assign(saveWiningPositionsAction),GameModel.assign(dropTokenAction)],
                         target: GameStates.VICTORY
                     },
                     {
@@ -76,6 +91,7 @@ export const GameMachine = GameModel.createMachine({
         [GameStates.VICTORY]: {
             on: {
                 restart: {
+                    actions: [GameModel.assign(restartAction)],
                     target: GameStates.LOBBY
                 }
             }
@@ -83,6 +99,7 @@ export const GameMachine = GameModel.createMachine({
         [GameStates.DRAW]: {
             on: {
                 restart: {
+                    actions: [GameModel.assign(restartAction)],
                     target: GameStates.LOBBY
                 }
             }

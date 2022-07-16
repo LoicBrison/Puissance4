@@ -76,6 +76,22 @@ describe("machine/GameMachine", () => {
             expect(machine.state.value).toBe(GameStates.VICTORY)
             expect(machine.state.context.winingPositions).toHaveLength(4)
         })
+
+        it('should handle draw', () => {
+            machine = makeGame(GameStates.PLAY, {
+                ...machine.state.context,
+                grid: [
+                    ["E","Y","Y","Y","Y","Y","Y"],
+                    ["Y","Y","Y","Y","Y","Y","Y"],
+                    ["Y","Y","Y","Y","Y","Y","Y"],
+                    ["Y","Y","Y","Y","Y","Y","Y"],
+                    ["Y","Y","Y","Y","Y","Y","Y"],
+                    ["Y","Y","Y","Y","Y","Y","Y"]
+                ]
+            }) 
+            expect(machine.send(GameModel.events.dropToken("1",0)).changed).toBe(true)
+            expect(machine.state.value).toBe(GameStates.DRAW)
+        })
     })
 
 })
