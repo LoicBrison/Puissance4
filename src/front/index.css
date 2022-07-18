@@ -14,12 +14,17 @@ button {
   cursor: pointer;
 }
 
+button:disabled{
+  opacity: .5;
+}
+
 label {
   font: inherit;
 }
 
 input {
-  padding: .7rem 1rem;  
+  padding: .7rem 1rem; 
+  margin: .5rem; 
   font: inherit;
   line-height: 1;
   border-radius: 5px;
@@ -87,7 +92,7 @@ input:disabled {
 
 .selector {
   display: flex;
-  gap: .5rem;
+  gap: 1rem;
 }
 
 .selector .disc {
@@ -121,7 +126,22 @@ input:disabled {
   width: 80%;
   aspect-ratio: 1/1;
   height: auto;
-  animation: Drop calc(.20s * var(--row)) both
+}
+
+.grid .disc-red,
+.grid .disc-yellow {
+  animation: Drop calc(.20s * var(--row)) both;
+}
+
+.disc-active {
+  border: 8px solid white;
+  animation: Blinking 1s both;
+}
+
+@keyframes Blinking{
+  from {
+    opacity: 0;
+  }
 }
 
 @keyframes Drop{
