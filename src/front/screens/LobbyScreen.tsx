@@ -29,8 +29,5 @@ export function LobbyScreen({}: LobbyScreenProps){
             <button className="button" onClick={prevent(copyUrlToClipboard)}>Copier l'url</button>
             <button disabled={!canStart} style={{float: 'right'}} className="button" onClick={prevent(startGame)}>Démarrer</button>
         </p>
-        <p>
-            <img src="https://www.regles-de-jeux.com/wp-content/uploads/2014/03/puissance-4.jpg"/>
-        </p>
     </div>
 }
