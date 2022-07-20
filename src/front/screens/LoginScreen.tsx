@@ -26,7 +26,6 @@ export function LoginScreen({}: LoginScreenProps){
 
     return <div>
         <NameSelector onSelect={handleLogin} />
-        <img src="https://www.regles-de-jeux.com/wp-content/uploads/2014/03/puissance-4.jpg"/>
         <p>
             <img src="https://www.regles-de-jeux.com/wp-content/uploads/2014/03/puissance-4.jpg"/>
         </p>
