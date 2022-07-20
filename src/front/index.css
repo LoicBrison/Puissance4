@@ -166,6 +166,11 @@ input:disabled {
   height: calc(100% + 100% / var(--rows));
 }
 
+.column:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .column .disc {
   opacity: 0;
   transition: .3s;

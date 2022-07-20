@@ -26,7 +26,6 @@ export const GameModel = createModel({
         start: (playerId: Player['id']) => ({playerId}),
         dropToken: (playerId: Player['id'], x: number) => ({playerId,x}),
         restart: (playerId: Player['id']) => ({playerId})
-        //restart: () => ({})
     }
 })
 

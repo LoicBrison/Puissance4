@@ -2,6 +2,8 @@
 import Fastify from 'fastify'
 import FastifyStatic from '@fastify/static'
 import FastifyWebSocket from '@fastify/websocket'
+import FastifyView from '@fastify/view'
+import ejs from 'ejs'
 import { v4 } from 'uuid'
 import { sign, verify } from './func/crypto'
 import { resolve } from 'path'
@@ -10,14 +12,28 @@ import { ConnectionRepository } from './repositories/ConnectionRepository'
 import { GameRepository } from './repositories/GamesRepository'
 import { GameModel } from '../machine/GameMachine'
 import { publishMachine } from './func/socket'
+import { readFileSync } from 'fs'
 
 const connections = new ConnectionRepository()
 const games = new GameRepository(connections)
+const env = process.env.NODE_ENV as 'dev' | 'prod'
+let manifest = {}
+try {
+    const manifestData = readFileSync('./public/assets/manifest.json')
+    manifest = JSON.parse(manifestData.toLocaleString())
+} catch(e) {
+
+}
+
 const fastify = Fastify({logger: true})
+fastify.register(FastifyView, {
+    engine: {
+        ejs: ejs
+    }
+})
 fastify.register(FastifyStatic, {
     root: resolve("./public")
 })
-
 fastify.register(FastifyWebSocket)
 fastify.register(async (f) => {
     f.get('/ws', {websocket: true}, (connection, req) => {
@@ -62,6 +78,10 @@ fastify.register(async (f) => {
     })
 })
 
+fastify.get('/', (req, res) => {
+    res.view("/templates/index.ejs", { manifest, env: process.env.NODE_ENV })
+})
+
 
 fastify.post('/api/players', (req, res) => {
     const playerId = v4()
@@ -79,5 +99,3 @@ fastify.listen({port: 8000}).catch((err) => {
 }).then(() => {
     fastify.log.info('Le serveur écoute sur le port 8000')
 })
-
-console.log('Hello')

@@ -13,6 +13,8 @@ export function ColorSelector({onSelect, players, colors}: ColorSelectorProps){
 
     return <>
         <div className="players">
+            <h2>Joueurs:</h2>
+            <br/>
             {players.map(player => <div key={player.id} className="player">
                 {player.name}
                 {player.color && <div className={discColorClass(player.color)}/>}
