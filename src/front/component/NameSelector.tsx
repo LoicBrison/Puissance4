@@ -27,7 +27,7 @@ export function NameSelector ({onSelect, disabled}: NameSelectorProps) {
         <form className="flex" style={{gap: '.5rem'}} action="" onSubmit={handleSubmit}>
             <label htmlFor="name">Votre pseudo</label>
             <input disabled={disabled} type="text" id="name" name="name" required/>
-
+            
             <button className="button" disabled={disabled}>Choisir</button>
         </form>
     </>

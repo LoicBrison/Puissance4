@@ -93,7 +93,7 @@ fastify.post('/api/players', (req, res) => {
     })
 })
 
-fastify.listen({port: 8000, host: '0.0.0.0'}).catch((err) => {
+fastify.listen({port: 8000, host: '127.0.0.1'}).catch((err) => {
     fastify.log.error(err),
     process.exit(1)
 }).then(() => {

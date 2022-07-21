@@ -61,12 +61,6 @@ export const GameMachine = GameModel.createMachine({
             }
         },
         [GameStates.PLAY]: {
-            // after: {
-            //     20000: {
-            //         target: GameStates.PLAY,
-            //         actions: [GameModel.assign(switchPlayerAction)]
-            //     }
-            // }
             on: {
                 dropToken: [
                     {
@@ -88,6 +82,11 @@ export const GameMachine = GameModel.createMachine({
             }
         },
         [GameStates.VICTORY]: {
+            after: {
+                20000: {
+                    target: GameStates.LOBBY,
+                }
+            },
             on: {
                 restart: {
                     actions: [GameModel.assign(restartAction)],
@@ -96,6 +95,11 @@ export const GameMachine = GameModel.createMachine({
             }
         },
         [GameStates.DRAW]: {
+            after: {
+                20000: {
+                    target: GameStates.LOBBY,
+                }
+            },
             on: {
                 restart: {
                     actions: [GameModel.assign(restartAction)],

@@ -1,5 +1,6 @@
 import { beforeEach, describe, it, expect } from 'vitest'
 import { interpret, InterpreterFrom } from 'xstate'
+import { winingPositions } from '../../src/func/game'
 import { GameMachine, GameModel, makeGame } from '../../src/machine/GameMachine'
 import { canDropGuard } from '../../src/machine/guards'
 import { GameContext, PlayerColor, GameStates } from '../../src/types'
@@ -76,6 +77,15 @@ describe("machine/GameMachine", () => {
             expect(machine.state.value).toBe(GameStates.VICTORY)
             expect(machine.state.context.winingPositions).toHaveLength(4)
         })
+
+        // it('should say me winPosition', () => {
+        //     console.log("WiningPosition:")
+        //     console.log(winingPositions(
+        //         machine.state.context.grid,
+        //         machine.state.context.players[0].color!,
+        //         5,
+        //         4))
+        // })
 
         it('should handle draw', () => {
             machine = makeGame(GameStates.PLAY, {
