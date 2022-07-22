@@ -9,27 +9,27 @@ export function gridScore(grid: GridState, player: Player, z: number): number {
     let gridSize = grid[0].length 
 
 
-    if(player.color == PlayerColor.RED){
-        if(winingPositions(grid,  PlayerColor.YELLOW, z, 4).length > 0){
-            return MIN_NOTE;
-        }
-        if(winingPositions(grid,  PlayerColor.RED, z, 4).length > 0){
-            return MAX_NOTE;
-        }
-
-    }else{
-        if(winingPositions(grid,  PlayerColor.RED, z, 4).length > 0){
-            return MIN_NOTE;
-        }
-        if(winingPositions(grid,  PlayerColor.YELLOW, z, 4).length > 0){
-            return MAX_NOTE;
-        }
-    }
+    
 
     for(let x=0; x < gridSize; x++){
         if(freePositionY(grid,x)!=-1){
 
-            
+            if(player.color == PlayerColor.RED){
+                if(winingPositions(grid,  PlayerColor.YELLOW, x, 4).length > 0){
+                    return MIN_NOTE;
+                }
+                if(winingPositions(grid,  PlayerColor.RED, x, 4).length > 0){
+                    return MAX_NOTE;
+                }
+        
+            }else{
+                if(winingPositions(grid,  PlayerColor.RED, x, 4).length > 0){
+                    return MIN_NOTE;
+                }
+                if(winingPositions(grid,  PlayerColor.YELLOW, x, 4).length > 0){
+                    return MAX_NOTE;
+                }
+            }
 
             score += winingPositions(grid,  player.color!, x, 2).length
             score += 3 * winingPositions(grid,  player.color!, x, 3).length

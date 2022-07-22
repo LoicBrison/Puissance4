@@ -1,6 +1,7 @@
 import { beforeEach, describe, it, expect } from 'vitest'
 import { interpret, InterpreterFrom } from 'xstate'
 import { MinMax } from '../../src/IA/minMax'
+import { MinMax2 } from '../../src/IA/minMax2'
 import { GameMachine, GameModel, makeGame } from '../../src/machine/GameMachine'
 import { canDropGuard } from '../../src/machine/guards'
 import { GameContext, PlayerColor, GameStates } from '../../src/types'
@@ -36,10 +37,10 @@ describe("ia/MinMax", () => {
                 grid: [
                     ["E","E","E","E","E","Y","E"],
                     ["E","E","E","E","E","Y","E"],
-                    ["E","E","E","E","E","R","E"],
-                    ["Y","E","E","Y","Y","Y","E"],
-                    ["R","E","E","Y","R","Y","E"],
-                    ["R","E","E","Y","R","Y","R"],
+                    ["E","E","E","E","R","R","E"],
+                    ["Y","Y","R","R","Y","Y","E"],
+                    ["R","R","R","Y","R","Y","E"],
+                    ["R","R","R","Y","R","Y","R"],
                 ] 
             }
     
@@ -49,8 +50,8 @@ describe("ia/MinMax", () => {
 
         it('should let me drop a tolken', () => {
             machine.state.context.currentPlayer = machine.state.context.players[0].id
-            let minmax = new MinMax(machine.state.context,machine.state.context.players[0])
-            let x = minmax.calcColumnToAdd(machine.state.context,machine.state.context.players[0])
+            let minmax2 = new MinMax2(machine.state.context,machine.state.context.players[0])
+            let x = minmax2.minMax()
             machine.send(GameModel.events.dropToken(machine.state.context.players[0].id,x))
             console.log(x)
         })

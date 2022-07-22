@@ -33,7 +33,7 @@ export class MinMax{
                 machineCopy.send(GameModel.events.dropToken(player.id,i))
                 let actualGameValue = this.minmax(machineCopy, player, 3, i)
                 // console.log("actualGameValue: "+actualGameValue+"  x: "+i)
-                if(actualGameValue >= gameValue){
+                if(actualGameValue > gameValue){
                     gameValue = actualGameValue
                     columnToAdd = i
                     // console.log("gameValue: "+gameValue+"  columnToAdd: "+columnToAdd)
@@ -57,7 +57,10 @@ export class MinMax{
                     let machineCopy = machine
                     machineCopy.state.context.currentPlayer = this.otherPlayer.id
                     machineCopy.send(GameModel.events.dropToken(this.otherPlayer.id, i))
-                    gameValue = Math.min(gameValue, this.max(machineCopy, player, depth-1, x))
+                    let actualGameValue = this.max(machineCopy, player, depth-1, x)
+                    if(actualGameValue < gameValue){
+                        gameValue = actualGameValue
+                    }
                 }
             }
             return  gameValue;
@@ -73,7 +76,10 @@ export class MinMax{
                     let machineCopy = machine
                     machineCopy.state.context.currentPlayer = player.id
                     machineCopy.send(GameModel.events.dropToken(player.id, i))
-                    gameValue = Math.max(gameValue, this.min(machineCopy, player, depth-1, x))
+                    let actualGameValue = this.min(machineCopy, player, depth-1, x)
+                    if(actualGameValue > gameValue){
+                        gameValue = actualGameValue
+                    }
                 }
             }
             return  gameValue;
